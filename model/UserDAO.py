@@ -11,7 +11,7 @@ class UserDAO:
         self.cursor = None
 
     def connect(self):
-        self.conn = pymysql.connect(host=config.DATABASE['HOST'], user=config.DATABASE['USER'], passwd=config.DATABASE['PASSWORD'], db=config.DATABASE['DATABASE'], charset='utf8')
+        self.conn = pymysql.connect(host=config.DATABASE['HOST'],port=config.DATABASE['PORT'], user=config.DATABASE['USER'], passwd=config.DATABASE['PASSWORD'], db=config.DATABASE['DATABASE'], charset='utf8')
         self.cursor = self.conn.cursor()
 
 
@@ -30,9 +30,9 @@ class UserDAO:
                 return False
 
 
-    def signup(self, userid, password, email, name, age, phone):
+    def signup(self, userid, password, email, name, age, phone, gender):
         self.connect()
-        vals = (userid, password, email, name, age, phone, 0)
+        vals = (userid, password, email, name, age, phone, 0, gender)
         self.cursor.execute(sql.signup_sql(), vals)
         self.conn.commit()
         self.conn.close()
@@ -107,7 +107,7 @@ class UserDAO:
 
     def save_movie_assessment(self, assessment_id, userid, movie_name, valance, arousal, dominance, liking, familiarity, emotion):
         self.connect()
-        vals = (assessment_id, userid, movie_name, valance, arousal, dominance, liking, familiarity, emotion)
+        vals = (assessment_id, userid, movie_name, valance, arousal, dominance, liking, familiarity, emotion, 0)
         self.cursor.execute(sql.save_movie_assessment_sql(), vals)
         self.conn.commit()
         self.conn.close()
